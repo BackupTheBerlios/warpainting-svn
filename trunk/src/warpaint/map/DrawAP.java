@@ -17,16 +17,15 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Foobar; if not, write to the Free Software
+ * along with warpainting; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-package map;
+package warpaint.map;
+
+import warpaint.xml.*;
 
 import java.awt.*;
-
-import xml.*;
-
 import java.awt.geom.*;
 import java.util.*;
 /**

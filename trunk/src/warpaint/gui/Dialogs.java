@@ -16,14 +16,14 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Foobar; if not, write to the Free Software
+ * along with warpainting; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  *
  * Provides standard message dialogs for error and information messages.
  */
  
-package gui;
+package warpaint.gui;
 
 import javax.swing.*;
 
@@ -39,16 +39,24 @@ public class Dialogs {
 	 * @param msg
 	 * @param title
 	 */
-	static void errorMsg(String msg, String title) {
-		JOptionPane.showMessageDialog(null, "An error occurred:\n\n "+msg, title, JOptionPane.ERROR_MESSAGE);
+	public static void errorMsg(final String msg, final String title) {
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+				JOptionPane.showMessageDialog(null, "An error occurred:\n\n "+msg, title, JOptionPane.ERROR_MESSAGE);
+			}
+        });
 	}
 	
 	/**
 	 * Displays a given error message. 
 	 * @param msg
 	 */
-	static void errorMsg(String msg) {
-		JOptionPane.showMessageDialog(null, "An error occurred:\n\n "+msg, "Error", JOptionPane.ERROR_MESSAGE);
+	public static void errorMsg(final String msg) {
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+				JOptionPane.showMessageDialog(null, "An error occurred:\n\n "+msg, "Error", JOptionPane.ERROR_MESSAGE);
+			}
+        });
 	}
 	
 }

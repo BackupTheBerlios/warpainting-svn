@@ -37,7 +37,7 @@
  * @(#)ExampleFileFilter.java	1.6 03/01/23
  */
 
-package gui;
+package warpaint.gui;
 
 import java.io.File;
 import java.util.Hashtable;

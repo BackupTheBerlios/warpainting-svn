@@ -17,11 +17,11 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Foobar; if not, write to the Free Software
+ * along with warpainting; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-package gui;
+package warpaint.gui;
 
 import java.awt.Graphics;
 //import java.awt.Graphics2D;
@@ -36,8 +36,8 @@ import java.io.*;
 
 import org.xml.sax.*;
 
-import xml.*;
-import map.*;
+import warpaint.xml.*;
+import warpaint.map.*;
 import java.io.File;
 import java.io.IOException;
 

@@ -22,7 +22,10 @@
  *
  * Defines static constants that are used as keys for getting system properties and other static variables.
  */
-package main;
+package warpaint.main;
+
+import java.util.*;
+import java.io.*;
 
 /**
  * @author chris
@@ -40,5 +43,66 @@ public class Config {
 	 * The version of the application.
 	 */
 	public final static float VERSION = 0.1f;
-
+	
+	
+	// default config filename
+	private static String configFilename = "warpainting.properties";
+	
+	// the singleton config instance
+	private static Properties props = new Properties();
+	
+	private static void createProps() {
+		File configFile = new File(configFilename);
+		if(configFile.exists()) {
+			try {
+				props.load(new FileInputStream(configFile));
+				
+			} catch(IOException e) {
+				// could not load properties file
+				//System.err.println("Could not load configuration properties from file '" + configFilename + "'");
+				warpaint.gui.Dialogs.errorMsg("Could not load configuration properties from file '" + configFilename + "'", "Error loading application properties");
+				e.printStackTrace();
+			}
+		}
+		warpaint.main.Log.getLog().finest("Created application properties based on config file: " + configFilename);
+	}
+	
+	/**
+	 * Allows setting the config file to use when loading the properties. Is 
+	 * only effective when called before the first call to props().
+	 */
+	public static void setConfigFile(String filename) {
+		configFilename = filename;
+	}
+	
+	public static void load() {
+		createProps();
+	}
+	
+	public Properties props() {
+		if(props == null) createProps();
+		return props;
+	}
+	
+	public static String get(String key) {
+		if(props == null) createProps();
+		return props.getProperty(key);
+	}
+	
+	public static String get(String key, String defaultValue) {
+		if(props == null) createProps();
+		return props.getProperty(key, defaultValue);
+	}
+	
+	public static Object setProperty(String key, String value) {
+		if(props == null) createProps();
+		Object obj = props.setProperty(key, value);
+		try {
+			props.store(new FileOutputStream(configFilename), "warpaint config properties");
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+		return obj;
+	}
+	
 }
