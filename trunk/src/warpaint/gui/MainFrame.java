@@ -34,6 +34,14 @@ import javax.swing.*;
  */
 public class MainFrame {
 	
+	/** the state of the main application after launch with no map, track or wlans loaded */
+	protected static final int NOTHING_LOADED = 0;
+	/** the state of the main application after having loaded gps track */
+	protected static final int TRACK_LOADED = 1;
+	/** the state of the main application after having loaded gps track and wlans */
+	protected static final int TRACK_AND_WLAN_LOADED = 2;
+	
+	
 	/* the jpanel with the map, which gets the commands for display update etc. */
 	MapPanel mapPanel;
 	
@@ -76,7 +84,7 @@ public class MainFrame {
 		 +----------------------------------------------------------------+
 		 |                                            |  rightSidePanel   |
 		 |                                            | +---------------+ |
-		 |                                            | | loadPanel     | |
+		 |   T H E   M A P                            | | loadPanel     | |
 		 |                                            | +----+------+---+ |
 		 |                                            | |     \      \  | |
 		 |                                            | | tab1 | tab2 | | |
@@ -110,7 +118,7 @@ public class MainFrame {
 		JPanel rightsidePanel = new JPanel(new GridLayout(3, 1));
 		
 		// create the container load panel
-		JPanel loadPanel = new JPanel(new GridLayout(3, 1));
+		JPanel loadPanel = new JPanel(new GridLayout(4, 1));
 		loadPanel.setBorder(BorderFactory.createTitledBorder("Load"));
 		
 		// create the buttons to load gps data etc.
@@ -156,7 +164,29 @@ public class MainFrame {
 			}
 		});
 		
-		//	 create the buttons to load gps data etc.
+		// create the button to load a map from the cache
+		JButton loadMapButton = new JButton("Load Map from cache");
+		loadPanel.add(loadMapButton);
+		loadMapButton.setMnemonic(KeyEvent.VK_M);
+		loadMapButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser chooser = new JFileChooser();
+			    StringFileFilter filter = new StringFileFilter();
+			    filter.addExtension("bmp");
+			    filter.addExtension("jpg");
+				filter.addExtension("gif");
+			    filter.setDescription("Map image files");
+			    chooser.setFileFilter(filter);
+			    int returnVal = chooser.showOpenDialog(null);
+			    if(returnVal == JFileChooser.APPROVE_OPTION) {
+			       //System.out.println("You chose to open this file: " +
+			       //     chooser.getSelectedFile().getName());
+			       //mapPanel.loadXMLfile(chooser.getSelectedFile());
+			    }
+			}
+		});
+		
+		
 		JButton exitButton = new JButton(" Exit Application ");
 		loadPanel.add(exitButton);
 		exitButton.setMnemonic(KeyEvent.VK_X);
@@ -169,10 +199,21 @@ public class MainFrame {
 		
 		rightsidePanel.add(loadPanel);
 		
-		
 		//create the container options panel
+		JTabbedPane tabbedPane = new JTabbedPane();
+		JPanel spinnerPanel = new JPanel(new BorderLayout());
+		JLabel scaleLabel = new JLabel("Scale");
+		SpinnerModel spinnerModel = new SpinnerNumberModel(new Integer(11800), new Integer(0), new Integer(100000), new Integer(100));
+		JSpinner spinner = new JSpinner(spinnerModel);
+		spinnerPanel.add(scaleLabel, BorderLayout.NORTH);
+		spinnerPanel.add(spinner, BorderLayout.SOUTH);
+		tabbedPane.addTab("Map", spinnerPanel);
+		tabbedPane.addTab("EXAMPLE", new JPanel());
+		tabbedPane.setBorder(BorderFactory.createTitledBorder("Settings"));
+		rightsidePanel.add(tabbedPane);
+		
 		JPanel optionsPanel = new JPanel(new GridLayout(2, 1));
-		optionsPanel.setBorder(BorderFactory.createTitledBorder("Display Options"));
+		optionsPanel.setBorder(BorderFactory.createTitledBorder("Display Control"));
 		
 		//create the check boxes
 		final JCheckBox trackButton = new JCheckBox("Display track");
@@ -222,7 +263,7 @@ public class MainFrame {
 		checkPanel.setBorder(BorderFactory.createEtchedBorder());
 		drawElementsPanel.add(trackButton);
 		//drawElementsPanel.add(wlanButton);
-		checkPanel.setBorder(BorderFactory.createTitledBorder("Security"));
+		checkPanel.setBorder(BorderFactory.createTitledBorder("WLAN Security"));
 		drawElementsPanel.setBorder(BorderFactory.createTitledBorder("Draw Elements"));
 		checkPanel.add(encryptedAPsButton);
 		checkPanel.add(decryptedAPsButton);
@@ -268,14 +309,6 @@ public class MainFrame {
 		
 		//optionsPanel.add(updateButton);
 		
-		JPanel spinnerPanel = new JPanel(new BorderLayout());
-		JLabel scaleLabel = new JLabel("Scale");
-		SpinnerModel spinnerModel = new SpinnerNumberModel(new Integer(11800), new Integer(0), new Integer(100000), new Integer(100));
-		JSpinner spinner = new JSpinner(spinnerModel);
-		spinnerPanel.add(scaleLabel, BorderLayout.NORTH);
-		spinnerPanel.add(spinner, BorderLayout.SOUTH);
-		rightsidePanel.add(spinnerPanel);
-		
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.setBorder(BorderFactory.createRaisedBevelBorder());
 		
@@ -284,6 +317,18 @@ public class MainFrame {
 		rightsidePanel.add(optionsPanel);
 		rightsidePanel.setBackground(Color.GRAY);
 		return panel;
+	}
+	
+	/**
+	 * Informs the rest of the application that the application state has
+	 * changed. Application state is i.e.:<ul>
+	 * <li>map loaded and displayed</li>
+	 * <li>gps track loaded</li>
+	 * <li>wlan/aps not loaded</li>
+	 * </ul>
+	 */
+	protected void stateChanged(int newstate) {	
+		
 	}
 	
 	/**

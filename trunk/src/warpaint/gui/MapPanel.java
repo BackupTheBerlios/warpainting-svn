@@ -279,7 +279,7 @@ public class MapPanel extends JPanel implements MouseMotionListener {
 		recomputeCoords = true;
 		// get the graphics instance of the map
 		graphics = map.createGraphics();
-		graphics.setStroke(new BasicStroke(2));	// FIXME: stroke = line width for track
+		graphics.setStroke(new BasicStroke(2));	// FIXME: stroke = line width for track, should be modifiable by app properties
 		if(drawAP != null) {
 			drawAP.draw(graphics, recomputeCoords);
 		}
