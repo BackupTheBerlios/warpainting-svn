@@ -293,13 +293,14 @@ public class MainFrame {
 	 */
     public MainFrame(String windowName, String mapname) {
     	//String lookAndFeel = UIManager.getSystemLookAndFeelClassName();
-    	String lookAndFeel = "com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
+    	/*
+	String lookAndFeel = "com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
     	try {
     		UIManager.setLookAndFeel(lookAndFeel);
     	} catch (Exception e) { e.printStackTrace(); }
         //Make sure we have nice window decorations.
         JFrame.setDefaultLookAndFeelDecorated(true);
-
+	*/
         //Create and set up the window.
         JFrame frame = new JFrame(windowName);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -47,7 +47,8 @@ public class Warpaint {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
             	//MainFrame gui = new MainFrame(windowName, "map_50.775_6.082_15000_1280_1024.gif");
-            	MainFrame gui = new MainFrame(windowName, "map_file0010.gif");
+            	//MainFrame gui = new MainFrame(windowName, "map_file0010.gif");
+		MainFrame gui = new MainFrame(windowName, "");
             }
         });
 	}

@@ -91,9 +91,12 @@ public class MapPanel extends JPanel implements MouseMotionListener {
     	BufferedImage map = null;
 		try {
 			map = ImageIO.read(new File(filename));
+		} catch (javax.imageio.IIOException e) {
+			// at runtime, image file not found
+			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		} 
 		return map;
     }
     
@@ -108,6 +111,11 @@ public class MapPanel extends JPanel implements MouseMotionListener {
 	}
 	
 	public Dimension getPreferredSize() {
+		// check whether a map was loaded
+		if(map == null) {
+			// no map loaded yet, return default size
+			return new Dimension(1024, 768);
+		}
 		return new Dimension(this.map.getWidth(), this.map.getHeight());
 	}
 	
@@ -212,6 +220,10 @@ public class MapPanel extends JPanel implements MouseMotionListener {
 			return;
 		}
 		map =  loadMap(mapfilename);
+		if(map == null) {
+			// map was not loaded correctly
+			return;
+		}
 		// get the graphics instance of the map
 		graphics = map.createGraphics();
 		graphics.setStroke(new BasicStroke(2));	// FIXME: stroke = line width for track
